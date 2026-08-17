@@ -84,13 +84,13 @@ def process_query(user_query):
     with str_ui.chat_message("assistant"):
         with str_ui.spinner("Thinking..."):
             try:
-                # Using the rock-solid, stable llama3-70b model structure
+                # UPDATED: Changed model format string to use the active flagship llama-3.3-70b-versatile
                 chat_completion = groq_client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
                         {"role": "user", "content": user_query}
                     ],
-                    model="llama3-70b-8192",
+                    model="llama-3.3-70b-versatile",
                 )
                 bot_message = chat_completion.choices.message.content
             except Exception as e:
@@ -100,7 +100,6 @@ def process_query(user_query):
 
 str_ui.markdown("### ⚡ Quick Options / ಸುಲಭ ಆಯ್ಕೆಗಳು")
 
-# FIXED: Explicit single-item tracking indices [0] to [5] applied perfectly
 col1, col2 = str_ui.columns(2)
 with col1:
     if str_ui.button(data["labels"][0], use_container_width=True):
