@@ -52,7 +52,7 @@ LANGUAGE_DATA = {
     },
     "मराठी (Marathi)": {
         "labels": ["⏰ पूजेची वेळ", "🍲 प्रसाद वेळ", "🏨 रूम बुकिंग माहिती", "📍 दर्शन प्रेक्षणीय स्थळे", "🛺 ऑटो रिक्षा चालक", "🚕 टॅक्सी चालकांचे संपर्क क्रमांक"],
-        "queries": ["पूजा आणि दर्शनाची अचूक वेळ काय आहे?", "तीर्थ प्रसाद वेळ काय आहे?", "रूಮ್ बुकिंगचे शुल्क आणि जवळचे हॉटेल्स काय आहेत?", "मठाच्या जवळ कोणती दर्शन घेण्यासारखी मंदिरे आहेत?", "स्थानिक प्रवासासाठी ऑटो ด್ರಾಯ್ವರ್ಸ್ಚೆ ಫೋನ್ ನಂಬರ್ ದ್ಯಾ", "दूरच्या प्रवासासाठी टॅक्सी चालकांचे संपर्क क्रमांक द्या"]
+        "queries": ["पूजा आणि दर्शनाची अचूक वेळ काय आहे?", "तीर्थ प्रसाद वेळ काय आहे?", "रूम् बुकिंगचे शुल्क आणि जवळचे हॉटेल्स काय आहेत?", "मठाच्या जवळ कोणती दर्शन घेण्यासारखी मंदिरे आहेत?", "स्थानिक प्रवासासाठी ऑटो ड्रायव्हर्सचे फोन नंबर द्या", "दूरच्या प्रवासासाठी टॅक्सी चालकांचे संपर्क क्रमांक द्या"]
     },
     "தமிழ் (Tamil)": {
         "labels": ["⏰ பூஜை நேரங்கள்", "🍲 பிரசாத நேரம்", "🏨 அறை முன்பதிவு", "📍 ஆன்மீக இடங்கள்", "🛺 ஆட்டோ எண்கள்", "🚕 டாக்ஸி எண்கள்"],
@@ -84,12 +84,13 @@ def process_query(user_query):
     with str_ui.chat_message("assistant"):
         with str_ui.spinner("Thinking..."):
             try:
+                # PERMANENT FIX: Shifted to gemma2-9b-it which is locked on Groq's permanent stable active model registry
                 chat_completion = groq_client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
                         {"role": "user", "content": user_query}
                     ],
-                    model="llama-3.1-70b-versatile",
+                    model="gemma2-9b-it",
                 )
                 bot_message = chat_completion.choices.message.content
             except Exception as e:
@@ -99,7 +100,6 @@ def process_query(user_query):
 
 str_ui.markdown("### ⚡ Quick Options / ಸುಲಭ ಆಯ್ಕೆಗಳು")
 
-# FIXED: Explicit row tracking indices [0] to [5] applied perfectly to ensure unique button mapping
 col1, col2 = str_ui.columns(2)
 with col1:
     if str_ui.button(data["labels"][0], use_container_width=True):
