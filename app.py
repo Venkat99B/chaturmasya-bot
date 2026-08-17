@@ -1,20 +1,20 @@
 import os
 import streamlit as str_ui
-from google.genai import client
-from google.genai import types
+from groq import Groq
 
 # 1. Page Configuration
 str_ui.set_page_config(page_title="Chaturmasya Assistant", page_icon="🪔", layout="centered")
 
-# 2. Securely Initialize Gemini Client
+# 2. Securely Initialize Groq Client
 @str_ui.cache_resource
-def get_gemini_client():
-    api_key = str_ui.secrets.get("GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY")
+def get_groq_client():
+    # Streamlit pulls variables from Advanced Settings Secrets
+    api_key = str_ui.secrets.get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY")
     if not api_key:
-        str_ui.error("API Key missing! Please add GEMINI_API_KEY to Streamlit Secrets.")
-    return client.Client(api_key=api_key)
+        str_ui.error("API Key missing! Please add GROQ_API_KEY to Streamlit Secrets.")
+    return Groq(api_key=api_key)
 
-ai = get_gemini_client()
+client = get_groq_client()
 
 # 3. Read Local Knowledge Base Text
 try:
@@ -37,7 +37,7 @@ Chaturmasya Event Knowledge Base:
 {knowledge_base}
 """
 
-# 4. Multilingual Data
+# 4. Multilingual Options Mapping
 LANGUAGE_DATA = {
     "ಕನ್ನಡ (Kannada)": {
         "labels": ["⏰ ಪೂಜಾ ಸಮಯಗಳು", "🍲 ಪ್ರಸಾದದ ಸಮಯ", "🏨 ರೂಮ್ ಬುಕಿಂಗ್", "📍 ಪ್ರೇಕ್ಷಣೀಯ ಸ್ಥಳಗಳು", "🛺 ಆಟೋ ಚಾಲಕರು", "🚕 ಟ್ಯಾಕ್ಸಿ ಸೇವೆಗಳು"],
@@ -53,7 +53,7 @@ LANGUAGE_DATA = {
     },
     "தமிழ் (Tamil)": {
         "labels": ["⏰ பூஜை நேரங்கள்", "🍲 பிரசாத நேரம்", "🏨 அறை முன்பதிவு", "📍 ஆன்மீக இடங்கள்", "🛺 ஆட்டோ எண்கள்", "🚕 டாக்ஸி எண்கள்"],
-        "queries": ["பூஜை மற்றும் தரிசன நேரங்கள் என்ன?", "தீர்த்த பிரசாதம் வழங்கப்படும் நேரம் என்ன?", "அறை முன்பதிவு கட்டணம் மற்றும் தங்கும் விடுதிகள் என்ன?", "மடத்தைச் சுற்றி பார்க்க வேண்டிய ஆன்மீகத் தலங்கள் யாவை?", "உள்ளூர் பயணத்திற்கு ஆட்டோ டிரைவர் போன் எண்கள் கொடுங்கள்", "வெளியூர் பயணத்திற்கு டாக்ஸி சர்வீஸ் போன் எண்கள் கொடுங்கள்"]
+        "queries": ["பூஜை மற்றும் தரிசன நேரங்கள் என்ன?", "தீர்த்த பிரசாதம் வழங்கப்படும் நேரம் என்ன?", "அறை முன்பதிவு கட்டணம் மற்றும் தங்கும் விடுதிகள் என்ன?", "மடத்தைச் சுற்றி பார்க்க வேண்டிய ஆன்மீகத் தலங்கள் யாவை?", "உள்ளூர் பயணத்திற்கு ஆட்டோ டிரைவர் போన్ எண்கள் கொடுங்கள்", "வெளியூர் பயணத்திற்கு டாக்ஸி சர்வீஸ் போன் எண்கள் கொடுங்கள்"]
     },
     "English": {
         "labels": ["⏰ Pooja Timings", "🍲 Teertha Prasada", "🏨 Room Booking", "📍 Places to Visit", "🛺 Auto Drivers", "🚕 Taxi Services"],
@@ -63,20 +63,16 @@ LANGUAGE_DATA = {
 
 str_ui.markdown("# 🪔 Shri Uttaradi Math Chaturmasya Assistant")
 
-# Language Dropdown Selection
-selected_lang = str_ui.selectbox("🔤 Choose Your Language / ನಿಮ್ಮ ಭาಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ", list(LANGUAGE_DATA.keys()))
+selected_lang = str_ui.selectbox("🔤 Choose Your Language / ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ", list(LANGUAGE_DATA.keys()))
 data = LANGUAGE_DATA[selected_lang]
 
-# Initialize Chat Memory Logs
 if "messages" not in str_ui.session_state:
     str_ui.session_state.messages = []
 
-# Persistent Rendering of Chat History
 for msg in str_ui.session_state.messages:
     with str_ui.chat_message(msg["role"]):
         str_ui.write(msg["content"])
 
-# Formulate LLM Request Call Engine
 def process_query(user_query):
     with str_ui.chat_message("user"):
         str_ui.write(user_query)
@@ -85,20 +81,22 @@ def process_query(user_query):
     with str_ui.chat_message("assistant"):
         with str_ui.spinner("Thinking..."):
             try:
-                response = ai.models.generate_content(
-                    model='gemini-3.6-flash',
-                    contents=user_query,
-                    config=types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT),
+                # Redirect requests through high-speed Groq LPU pipelines
+                chat_completion = client.chat.completions.create(
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": user_query}
+                    ],
+                    model="llama-3.3-70b-versatile",
                 )
-                bot_message = response.text
+                bot_message = chat_completion.choices[0].message.content
             except Exception as e:
-                bot_message = f"An error occurred: {str(e)}"
+                bot_message = "ಕ್ಷಮಿಸಿ, ಸರ್ವರ್ ಕಾರ್ಯನಿರತವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ. / App server is handling heavy traffic. Please tap the button again."
             str_ui.write(bot_message)
     str_ui.session_state.messages.append({"role": "assistant", "content": bot_message})
 
 str_ui.markdown("### ⚡ Quick Options / ಸುಲಭ ಆಯ್ಕೆಗಳು")
 
-# Mobile Optimized 2-Column Responsive Layout Setup Grid
 col1, col2 = str_ui.columns(2)
 with col1:
     if str_ui.button(data["labels"][0], use_container_width=True):
@@ -118,6 +116,5 @@ with col2:
 
 str_ui.markdown("---")
 
-# Bottom Custom Free-Text Query Input Bar
 if custom_input := str_ui.chat_input("Or type your custom question here..."):
     process_query(custom_input)
