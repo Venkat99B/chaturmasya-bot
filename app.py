@@ -44,7 +44,7 @@ Chaturmasya Event Knowledge Base:
 LANGUAGE_DATA = {
     "ಕನ್ನಡ (Kannada)": {
         "labels": ["⏰ ಪೂಜಾ ಸಮಯಗಳು", "🍲 ಪ್ರಸಾದದ ಸಮಯ", "🏨 ರೂಮ್ ಬುಕಿಂಗ್", "📍 ಪ್ರೇಕ್ಷಣೀಯ ಸ್ಥಳಗಳು", "🛺 ಆಟೋ ಚಾಲಕರು", "🚕 ಟ್ಯಾಕ್ಸಿ ಸೇವೆಗಳು"],
-        "queries": ["ಪೂಜೆ ಮತ್ತು ದರ್ಶನದ ಸಮಯಗಳು ಯಾವುವು?", "ತೀರ್ಥ ಪ್ರಸಾದದ ಸಮಯ ಯಾವಾಗ?", "ರೂಮ್ ಬುಕಿಂಗ್ ಮತ್ತು ಹತ್ತಿರದ ಹೋಟೆಲ್ ವಿವರಗಳು ಬೇಕು", "ಮಠದ ಸುತ್ತಮುತ್ತ ನೋಡಬೇಕಾದ ದೇವಸ್ಥಾನಗಳು ಯಾವುವು?", "ಸ್ಥಳೀಯ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಆಟೋ ಚಾಲಕರ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ", "ದೂರದ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಟ್ಯಾಕ್ಸಿ ಡ್ರೈವರ್ಗಳ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ"]
+        "queries": ["ಪೂಜೆ ಮತ್ತು ದರ್ಶನದ ಸಮಯಗಳು ಯಾವುವು?", "ತೀರ್ಥ ಪ್ರಸಾದದ ಸಮಯ ಯಾವಾಗ?", "ರೂಮ್ ಬುಕಿಂಗ್ ಮತ್ತು ಹತ್ತಿರದ ಹೋಟೆಲ್ ವಿವರಗಳು ಬೇಕು", "ಮಠದ ಸುತ್ತಮುತ್ತ ನೋಡಬೇಕಾದ ದೇವಸ್ಥಾನಗಳು ಯಾವುವು?", "ಸ್ಥಳೀಯ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಆಟೋ ಚಾಲಕರ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ", "दೂರದ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಟ್ಯಾಕ್ಸಿ ಡ್ರೈವರ್ಗಳ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ"]
     },
     "తెలుగు (Telugu)": {
         "labels": ["⏰ పూజా సమయాలు", "🍲 ప్రసాదం సమయం", "🏨 రూమ్ బుకింగ్", "📍 సందర్శన స్థలాలు", "🛺 ఆటో డ్రైవర్లు", "🚕 టాక్సీ సర్వీస్"],
@@ -84,13 +84,13 @@ def process_query(user_query):
     with str_ui.chat_message("assistant"):
         with str_ui.spinner("Thinking..."):
             try:
-                # PERMANENT FIX: Shifted to gemma2-9b-it which is locked on Groq's permanent stable active model registry
+                # PERMANENT PRODUCTION FIXED MODEL: llama-3.3-70b-versatile
                 chat_completion = groq_client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
                         {"role": "user", "content": user_query}
                     ],
-                    model="gemma2-9b-it",
+                    model="llama-3.3-70b-versatile",
                 )
                 bot_message = chat_completion.choices.message.content
             except Exception as e:
