@@ -44,7 +44,7 @@ Chaturmasya Event Knowledge Base:
 LANGUAGE_DATA = {
     "ಕನ್ನಡ (Kannada)": {
         "labels": ["⏰ ಪೂಜಾ ಸಮಯಗಳು", "🍲 ಪ್ರಸಾದದ ಸಮಯ", "🏨 ರೂಮ್ ಬುಕಿಂಗ್", "📍 ಪ್ರೇಕ್ಷಣೀಯ ಸ್ಥಳಗಳು", "🛺 ಆಟೋ ಚಾಲಕರು", "🚕 ಟ್ಯಾಕ್ಸಿ ಸೇವೆಗಳು"],
-        "queries": ["ಪೂಜೆ ಮತ್ತು ದರ್ಶನದ ಸಮಯಗಳು ಯಾವುವು?", "ತೀರ್ಥ ಪ್ರಸಾದದ ಸಮಯ ಯಾವಾಗ?", "ರೂಮ್ ಬುಕಿಂಗ್ ಮತ್ತು ಹತ್ತಿರದ ಹೋಟೆಲ್ ವಿವರಗಳು ಬೇಕು", "ಮಠದ ಸುತ್ತಮುತ್ತ ನೋಡಬೇಕಾದ ದೇವಸ್ಥಾನಗಳು ಯಾವುವು?", "ಸ್ಥಳೀಯ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಆಟೋ ಚಾಲಕರ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ", "दೂರದ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಟ್ಯಾಕ್ಸಿ ಡ್ರೈವರ್ಗಳ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ"]
+        "queries": ["ಪೂಜೆ ಮತ್ತು ದರ್ಶನದ ಸಮಯಗಳು ಯಾವುವು?", "ತೀರ್ಥ ಪ್ರಸಾದದ ಸಮಯ ಯಾವಾಗ?", "ರೂಮ್ ಬುಕಿಂಗ್ ಮತ್ತು ಹತ್ತಿರದ ಹೋಟೆಲ್ ವಿವರಗಳು ಬೇಕು", "ಮಠದ ಸುತ್ತಮುತ್ತ ನೋಡಬೇಕಾದ ದೇವಸ್ಥಾನಗಳು ಯಾವುವು?", "ಸ್ಥಳೀಯ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಆಟೋ ಚಾಲಕರ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ", "ದೂರದ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಟ್ಯಾಕ್ಸಿ ಡ್ರೈವರ್ಗಳ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ"]
     },
     "తెలుగు (Telugu)": {
         "labels": ["⏰ పూజా సమయాలు", "🍲 ప్రసాదం సమయం", "🏨 రూమ్ బుకింగ్", "📍 సందర్శన స్థలాలు", "🛺 ఆటో డ్రైవర్లు", "🚕 టాక్సీ సర్వీస్"],
@@ -52,11 +52,11 @@ LANGUAGE_DATA = {
     },
     "मराठी (Marathi)": {
         "labels": ["⏰ पूजेची वेळ", "🍲 प्रसाद वेळ", "🏨 रूम बुकिंग माहिती", "📍 दर्शन प्रेक्षणीय स्थळे", "🛺 ऑटो रिक्षा चालक", "🚕 टॅक्सी चालकांचे संपर्क क्रमांक"],
-        "queries": ["पूजा आणि दर्शनाची अचूक वेळ काय आहे?", "तीर्थ प्रसाद वेळ काय आहे?", "रूम् बुकिंगचे शुल्क आणि जवळचे हॉटेल्स काय आहेत?", "मठाच्या जवळ कोणती दर्शन घेण्यासारखी मंदिरे आहेत?", "स्थानिक प्रवासासाठी ऑटो ड्रायव्हर्सचे फोन नंबर द्या", "दूरच्या प्रवासासाठी टॅक्सी चालकांचे संपर्क क्रमांक द्या"]
+        "queries": ["पूजा आणि दर्शनाची अचूक वेळ काय आहे?", "तीर्थ प्रसाद वेळ काय आहे?", "रूಮ್ बुकिंगचे शुल्क आणि जवळचे हॉटेल्स काय आहेत?", "मठाच्या जवळ कोणती दर्शन घेण्यासारखी मंदिरे आहेत?", "स्थानिक प्रवासासाठी ऑटो ड्रायव्हर्सचे फोन नंबर द्या", "दूरच्या प्रवासासाठी टॅक्सी चालकांचे संपर्क क्रमांक द्या"]
     },
     "தமிழ் (Tamil)": {
         "labels": ["⏰ பூஜை நேரங்கள்", "🍲 பிரசாத நேரம்", "🏨 அறை முன்பதிவு", "📍 ஆன்மீக இடங்கள்", "🛺 ஆட்டோ எண்கள்", "🚕 டாக்ஸி எண்கள்"],
-        "queries": ["பூஜை மற்றும் தரிசன நேரங்கள் என்ன?", "தீர்த்த பிரசாதம் வழங்கப்படும் நேரம் என்ன?", "அறை முன்பதிவு கட்டணம் மற்றும் தங்கும் விடுதிகள் என்ன?", "மடத்தைச் சுற்றி பார்க்க வேண்டிய ஆன்மீகத் தலங்கள் யாவை?", "உள்ளூர் பயணத்திற்கு ஆட்டோ டிரைவர் போன் எண்கள் கொடுங்கள்", "வெளியூர் பயணத்திற்கு டாக்ஸி சர்வீஸ் போன் எண்கள் கொடுங்கள்"]
+        "queries": ["பூజை மற்றும் தரிசன நேரங்கள் என்ன?", "தீர்த்த பிரசாதம் வழங்கப்படும் நேரம் என்ன?", "அறை முன்பதிவு கட்டணம் மற்றும் தங்கும் விடுதிகள் என்ன?", "மடத்தைச் சுற்றி பார்க்க வேண்டிய ஆன்மீகத் தலங்கள் யாவை?", "உள்ளூர் பயணத்திற்கு ஆட்டோ டிரைவர் போன் எண்கள் கொடுங்கள்", "வெளியூர் பயணத்திற்கு டாக்ஸி சர்வீஸ் போன் எண்கள் கொடுங்கள்"]
     },
     "English": {
         "labels": ["⏰ Pooja Timings", "🍲 Teertha Prasada", "🏨 Room Booking", "📍 Places to Visit", "🛺 Auto Drivers", "🚕 Taxi Services"],
@@ -84,7 +84,7 @@ def process_query(user_query):
     with str_ui.chat_message("assistant"):
         with str_ui.spinner("Thinking..."):
             try:
-                # PERMANENT PRODUCTION FIXED MODEL: llama-3.3-70b-versatile
+                # GUARANTEED LIVE MODEL: llama-3.3-70b-versatile
                 chat_completion = groq_client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
@@ -102,20 +102,20 @@ str_ui.markdown("### ⚡ Quick Options / ಸುಲಭ ಆಯ್ಕೆಗಳು")
 
 col1, col2 = str_ui.columns(2)
 with col1:
-    if str_ui.button(data["labels"][0], use_container_width=True):
-        process_query(data["queries"][0])
-    if str_ui.button(data["labels"][1], use_container_width=True):
-        process_query(data["queries"][1])
-    if str_ui.button(data["labels"][2], use_container_width=True):
-        process_query(data["queries"][2])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
 
 with col2:
-    if str_ui.button(data["labels"][3], use_container_width=True):
-        process_query(data["queries"][3])
-    if str_ui.button(data["labels"][4], use_container_width=True):
-        process_query(data["queries"][4])
-    if str_ui.button(data["labels"][5], use_container_width=True):
-        process_query(data["queries"][5])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
 
 str_ui.markdown("---")
 
