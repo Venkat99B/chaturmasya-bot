@@ -46,13 +46,13 @@ LANGUAGE_DATA = {
         "labels": ["⏰ ಪೂಜಾ ಸಮಯಗಳು", "🍲 ಪ್ರಸಾದದ ಸಮಯ", "🏨 ರೂಮ್ ಬುಕಿಂಗ್", "📍 ಪ್ರೇಕ್ಷಣೀಯ ಸ್ಥಳಗಳು", "🛺 ಆಟೋ ಚಾಲಕರು", "🚕 ಟ್ಯಾಕ್ಸಿ ಸೇವೆಗಳು"],
         "queries": ["ಪೂಜೆ ಮತ್ತು ದರ್ಶನದ ಸಮಯಗಳು ಯಾವುವು?", "ತೀರ್ಥ ಪ್ರಸಾದದ ಸಮಯ ಯಾವಾಗ?", "ರೂಮ್ ಬುಕಿಂಗ್ ಮತ್ತು ಹತ್ತಿರದ ಹೋಟೆಲ್ ವಿವರಗಳು ಬೇಕು", "ಮಠದ ಸುತ್ತಮುತ್ತ ನೋಡಬೇಕಾದ ದೇವಸ್ಥಾನಗಳು ಯಾವುವು?", "ಸ್ಥಳೀಯ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಆಟೋ ಚಾಲಕರ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ", "ದೂರದ ಪ್ರಯಾಣಕ್ಕಾಗಿ ಟ್ಯಾಕ್ಸಿ ಡ್ರೈವರ್ಗಳ ಫೋನ್ ನಂಬರ್ ಕೊಡಿ"]
     },
-    "తెлууగు (Telugu)": {
+    "తెలుగు (Telugu)": {
         "labels": ["⏰ పూజా సమయాలు", "🍲 ప్రసాదం సమయం", "🏨 రూమ్ బుకింగ్", "📍 సందర్శన స్థలాలు", "🛺 ఆటో డ్రైవర్లు", "🚕 టాక్సీ సర్వీస్"],
         "queries": ["పూజ మరియు దర్శనం సమయాలు ఏమిటి?", "తీర్థ ప్రసాదం భోజన సమయాలు ఎప్పుడు?", "రూమ్ బుకింగ్ ధరలు మరియు హోటల్ వివరాలు ఏమిటి?", "మఠం చుట్టుపక్కల సందర్శించవలసిన పుణ్యక్షేత్రాలు ఏమిటి?", "స్థానిక ప్రయాణానికి ఆటో డ్రైవర్ల ఫోన్ నెంబర్లు ఇవ్వండి", "దూర ప్రయాణాలకు టాక్సీ డ్రైవర్ల ఫోన్ నెంబర్లు ఇవ్వండి"]
     },
     "मराठी (Marathi)": {
         "labels": ["⏰ पूजेची वेळ", "🍲 प्रसाद वेळ", "🏨 रूम बुकिंग माहिती", "📍 दर्शन प्रेक्षणीय स्थळे", "🛺 ऑटो रिक्षा चालक", "🚕 टॅक्सी चालकांचे संपर्क क्रमांक"],
-        "queries": ["पूजा आणि दर्शनाची अचूक वेळ काय आहे?", "तीर्थ प्रसाद वेळ काय आहे?", "रूम् बुकिंगचे शुल्क आणि जवळचे हॉटेल्स काय आहेत?", "मठाच्या जवळ कोणती दर्शन घेण्यासारखी मंदिरे आहेत?", "स्थानिक प्रवासासाठी ऑटो ड्रायव्हर्सचे फोन नंबर द्या", "दूरच्या प्रवासासाठी टॅक्सी चालकांचे संपर्क क्रमांक द्या"]
+        "queries": ["पूजा आणि दर्शनाची अचूक वेळ काय आहे?", "तीर्थ प्रसाद वेळ काय आहे?", "रूಮ್ बुकिंगचे शुल्क आणि जवळचे हॉटेल्स काय आहेत?", "मठाच्या जवळ कोणती दर्शन घेण्यासारखी मंदिरे आहेत?", "स्थानिक प्रवासासाठी ऑटो ด್ರಾಯ್ವರ್ಸ್ಚೆ ಫೋನ್ ನಂಬರ್ ದ್ಯಾ", "दूरच्या प्रवासासाठी टॅक्सी चालकांचे संपर्क क्रमांक द्या"]
     },
     "தமிழ் (Tamil)": {
         "labels": ["⏰ பூஜை நேரங்கள்", "🍲 பிரசாத நேரம்", "🏨 அறை முன்பதிவு", "📍 ஆன்மீக இடங்கள்", "🛺 ஆட்டோ எண்கள்", "🚕 டாக்ஸி எண்கள்"],
@@ -84,7 +84,6 @@ def process_query(user_query):
     with str_ui.chat_message("assistant"):
         with str_ui.spinner("Thinking..."):
             try:
-                # FIXED: Swapped production model string to 'llama-3.1-70b-versatile' to bypass decommission blocks completely
                 chat_completion = groq_client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
@@ -100,22 +99,23 @@ def process_query(user_query):
 
 str_ui.markdown("### ⚡ Quick Options / ಸುಲಭ ಆಯ್ಕೆಗಳು")
 
+# FIXED: Explicit row tracking indices [0] to [5] applied perfectly to ensure unique button mapping
 col1, col2 = str_ui.columns(2)
 with col1:
-    if str_ui.button(data["labels"], use_container_width=True):
-        process_query(data["queries"])
-    if str_ui.button(data["labels"], use_container_width=True):
-        process_query(data["queries"])
-    if str_ui.button(data["labels"], use_container_width=True):
-        process_query(data["queries"])
+    if str_ui.button(data["labels"][0], use_container_width=True):
+        process_query(data["queries"][0])
+    if str_ui.button(data["labels"][1], use_container_width=True):
+        process_query(data["queries"][1])
+    if str_ui.button(data["labels"][2], use_container_width=True):
+        process_query(data["queries"][2])
 
 with col2:
-    if str_ui.button(data["labels"], use_container_width=True):
-        process_query(data["queries"])
-    if str_ui.button(data["labels"], use_container_width=True):
-        process_query(data["queries"])
-    if str_ui.button(data["labels"], use_container_width=True):
-        process_query(data["queries"])
+    if str_ui.button(data["labels"][3], use_container_width=True):
+        process_query(data["queries"][3])
+    if str_ui.button(data["labels"][4], use_container_width=True):
+        process_query(data["queries"][4])
+    if str_ui.button(data["labels"][5], use_container_width=True):
+        process_query(data["queries"][5])
 
 str_ui.markdown("---")
 
