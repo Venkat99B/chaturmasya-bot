@@ -8,13 +8,16 @@ str_ui.set_page_config(page_title="Chaturmasya Assistant", page_icon="🪔", lay
 # 2. Securely Initialize Groq Client
 @str_ui.cache_resource
 def get_groq_client():
-    # Streamlit pulls variables from Advanced Settings Secrets
-    api_key = str_ui.secrets.get("GROQ_API_KEY") or os.environ.get("GROQ_API_KEY")
+    try:
+        api_key = str_ui.secrets["GROQ_API_KEY"]
+    except Exception:
+        api_key = os.environ.get("GROQ_API_KEY")
+        
     if not api_key:
         str_ui.error("API Key missing! Please add GROQ_API_KEY to Streamlit Secrets.")
     return Groq(api_key=api_key)
 
-client = get_groq_client()
+groq_client = get_groq_client()
 
 # 3. Read Local Knowledge Base Text
 try:
@@ -48,12 +51,12 @@ LANGUAGE_DATA = {
         "queries": ["పూజ మరియు దర్శనం సమయాలు ఏమిటి?", "తీర్థ ప్రసాదం భోజన సమయాలు ఎప్పుడు?", "రూమ్ బుకింగ్ ధరలు మరియు హోటల్ వివరాలు ఏమిటి?", "మఠం చుట్టుపక్కల సందర్శించవలసిన పుణ్యక్షేత్రాలు ఏమిటి?", "స్థానిక ప్రయాణానికి ఆటో డ్రైవర్ల ఫోన్ నెంబర్లు ఇవ్వండి", "దూర ప్రయాణాలకు టాక్సీ డ్రైవర్ల ఫోన్ నెంబర్లు ఇవ్వండి"]
     },
     "मराठी (Marathi)": {
-        "labels": ["⏰ पूजेची वेळ", "🍲 प्रसाद वेळ", "🏨 रूम बुकिंग माहिती", "📍 दर्शन प्रेक्षणीय स्थळे", "🛺 ऑटो रिक्षा चालक", "🚕 टॅक्सी ड्रायव्हर्स"],
+        "labels": ["⏰ पूजेची वेळ", "🍲 प्रसाद वेळ", "🏨 रूम बुकिंग माहिती", "📍 दर्शन प्रेक्षणीय स्थळे", "🛺 ऑटो रिक्षा चालक", "🚕 टॅक्सी चालकांचे संपर्क क्रमांक"],
         "queries": ["पूजा आणि दर्शनाची अचूक वेळ काय आहे?", "तीर्थ प्रसाद वेळ काय आहे?", "रूम् बुकिंगचे शुल्क आणि जवळचे हॉटेल्स काय आहेत?", "मठाच्या जवळ कोणती दर्शन घेण्यासारखी मंदिरे आहेत?", "स्थानिक प्रवासासाठी ऑटो ड्रायव्हर्सचे फोन नंबर द्या", "दूरच्या प्रवासासाठी टॅक्सी चालकांचे संपर्क क्रमांक द्या"]
     },
     "தமிழ் (Tamil)": {
         "labels": ["⏰ பூஜை நேரங்கள்", "🍲 பிரசாத நேரம்", "🏨 அறை முன்பதிவு", "📍 ஆன்மீக இடங்கள்", "🛺 ஆட்டோ எண்கள்", "🚕 டாக்ஸி எண்கள்"],
-        "queries": ["பூஜை மற்றும் தரிசன நேரங்கள் என்ன?", "தீர்த்த பிரசாதம் வழங்கப்படும் நேரம் என்ன?", "அறை முன்பதிவு கட்டணம் மற்றும் தங்கும் விடுதிகள் என்ன?", "மடத்தைச் சுற்றி பார்க்க வேண்டிய ஆன்மீகத் தலங்கள் யாவை?", "உள்ளூர் பயணத்திற்கு ஆட்டோ டிரைவர் போన్ எண்கள் கொடுங்கள்", "வெளியூர் பயணத்திற்கு டாக்ஸி சர்வீஸ் போன் எண்கள் கொடுங்கள்"]
+        "queries": ["பூஜை மற்றும் தரிசன நேரங்கள் என்ன?", "தீர்த்த பிரசாதம் வழங்கப்படும் நேரம் என்ன?", "அறை முன்பதிவு கட்டணம் மற்றும் தங்கும் விடுதிகள் என்ன?", "மடத்தைச் சுற்றி பார்க்க வேண்டிய ஆன்மீகத் தலங்கள் யாவை?", "உள்ளூர் பயணத்திற்கு ஆட்டோ டிரைவர் போன் எண்கள் கொடுங்கள்", "வெளியூர் பயணத்திற்கு டாக்ஸி சர்வீஸ் போன் எண்கள் கொடுங்கள்"]
     },
     "English": {
         "labels": ["⏰ Pooja Timings", "🍲 Teertha Prasada", "🏨 Room Booking", "📍 Places to Visit", "🛺 Auto Drivers", "🚕 Taxi Services"],
@@ -81,22 +84,23 @@ def process_query(user_query):
     with str_ui.chat_message("assistant"):
         with str_ui.spinner("Thinking..."):
             try:
-                # Redirect requests through high-speed Groq LPU pipelines
-                chat_completion = client.chat.completions.create(
+                # Using the rock-solid, stable llama3-70b model structure
+                chat_completion = groq_client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
                         {"role": "user", "content": user_query}
                     ],
-                    model="llama-3.3-70b-versatile",
+                    model="llama3-70b-8192",
                 )
-                bot_message = chat_completion.choices[0].message.content
+                bot_message = chat_completion.choices.message.content
             except Exception as e:
-                bot_message = "ಕ್ಷಮಿಸಿ, ಸರ್ವರ್ ಕಾರ್ಯನಿರತವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ. / App server is handling heavy traffic. Please tap the button again."
+                bot_message = f"API Error detail: {str(e)}"
             str_ui.write(bot_message)
     str_ui.session_state.messages.append({"role": "assistant", "content": bot_message})
 
 str_ui.markdown("### ⚡ Quick Options / ಸುಲಭ ಆಯ್ಕೆಗಳು")
 
+# FIXED: Explicit single-item tracking indices [0] to [5] applied perfectly
 col1, col2 = str_ui.columns(2)
 with col1:
     if str_ui.button(data["labels"][0], use_container_width=True):
