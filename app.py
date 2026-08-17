@@ -51,7 +51,7 @@ LANGUAGE_DATA = {
         "queries": ["పూజ మరియు దర్శనం సమయాలు ఏమిటి?", "తీర్థ ప్రసాదం భోజన సమయాలు ఎప్పుడు?", "రూమ్ బుకింగ్ ధరలు మరియు హోటల్ వివరాలు ఏమిటి?", "మఠం చుట్టుపక్కల సందర్శించవలసిన పుణ్యక్షేత్రాలు ఏమిటి?", "స్థానిక ప్రయాణానికి ఆటో డ్రైవర్ల ఫోన్ నెంబర్లు ఇవ్వండి", "దూర ప్రయాణాలకు టాక్సీ డ్రైవర్ల ఫోన్ నెంబర్లు ఇవ్వండి"]
     },
     "मराठी (Marathi)": {
-        "labels": ["⏰ पूजेची वेळ", "🍲 प्रसाद वेळ", "🏨 रूम बुकिंग माहिती", "📍 दर्शन प्रेक्षणीय स्थळे", "🛺 ऑटो रिक्षा चालक", "🚕 टॅक्सी चालकांचे संपर्क क्रमांक"],
+        "labels": ["⏰ पूजेची ख्याल", "🍲 प्रसाद वेळ", "🏨 रूम बुकिंग माहिती", "📍 दर्शन प्रेक्षणीय स्थळे", "🛺 ऑटो रिक्षा चालक", "🚕 टॅक्सी चालकांचे संपर्क क्रमांक"],
         "queries": ["पूजा आणि दर्शनाची अचूक वेळ काय आहे?", "तीर्थ प्रसाद वेळ काय आहे?", "रूम् बुकिंगचे शुल्क आणि जवळचे हॉटेल्स काय आहेत?", "मठाच्या जवळ कोणती दर्शन घेण्यासारखी मंदिरे आहेत?", "स्थानिक प्रवासासाठी ऑटो ड्रायव्हर्सचे फोन नंबर द्या", "दूरच्या प्रवासासाठी टॅक्सी चालकांचे संपर्क क्रमांक द्या"]
     },
     "தமிழ் (Tamil)": {
@@ -84,13 +84,13 @@ def process_query(user_query):
     with str_ui.chat_message("assistant"):
         with str_ui.spinner("Thinking..."):
             try:
-                # UPDATED: Changed model format string to use the active flagship llama-3.3-70b-versatile
+                # UPDATED: Re-targeted to high-performance active production identifier string
                 chat_completion = groq_client.chat.completions.create(
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
                         {"role": "user", "content": user_query}
                     ],
-                    model="llama-3.3-70b-versatile",
+                    model="llama-3.3-70b-specdec",
                 )
                 bot_message = chat_completion.choices.message.content
             except Exception as e:
@@ -102,20 +102,20 @@ str_ui.markdown("### ⚡ Quick Options / ಸುಲಭ ಆಯ್ಕೆಗಳು")
 
 col1, col2 = str_ui.columns(2)
 with col1:
-    if str_ui.button(data["labels"][0], use_container_width=True):
-        process_query(data["queries"][0])
-    if str_ui.button(data["labels"][1], use_container_width=True):
-        process_query(data["queries"][1])
-    if str_ui.button(data["labels"][2], use_container_width=True):
-        process_query(data["queries"][2])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
 
 with col2:
-    if str_ui.button(data["labels"][3], use_container_width=True):
-        process_query(data["queries"][3])
-    if str_ui.button(data["labels"][4], use_container_width=True):
-        process_query(data["queries"][4])
-    if str_ui.button(data["labels"][5], use_container_width=True):
-        process_query(data["queries"][5])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
+    if str_ui.button(data["labels"], use_container_width=True):
+        process_query(data["queries"])
 
 str_ui.markdown("---")
 
